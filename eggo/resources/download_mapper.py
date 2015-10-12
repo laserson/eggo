@@ -50,14 +50,14 @@ def uri_to_sanitized_filename(source_uri, decompress=False):
 
 for line in sys.stdin:
     resource = json.loads(line.split('\t', 1)[1])
-    
+
     # compute dest filename
     staging_path = os.environ['STAGING_PATH']
     decompress = resource['compression'] in ['gzip']
     dest_name = uri_to_sanitized_filename(resource['url'],
                                           decompress=decompress)
     dest_path = pjoin(staging_path, dest_name)
-    
+
     # construct dnload cmd (straight into HDFS)
     pipeline = ['curl -L {0}'.format(resource['url'])]
     if resource['compression'] == 'gzip':

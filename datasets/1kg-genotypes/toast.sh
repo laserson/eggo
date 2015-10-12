@@ -21,7 +21,7 @@ set -e
 
 # DOWNLOAD VCF FILES
 eggo-data dnload_raw \
-    --input ~/eggo/datasets/dbsnp/datapackage.json \
+    --input ~/eggo/datasets/1kg-genotypes/datapackage.json \
     --output hdfs:///user/ec2-user/1kg-genotypes/raw
 
 
