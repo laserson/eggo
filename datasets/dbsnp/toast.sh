@@ -16,9 +16,12 @@
 # limitations under the License.
 
 
+set -e
+
+
 # DOWNLOAD VCF FILES
 eggo-data dnload_raw \
-    --input datapackage.json \
+    --input ~/eggo/datasets/dbsnp/datapackage.json \
     --output hdfs:///user/ec2-user/dbsnp/raw
 
 
