@@ -32,6 +32,7 @@ eggo-data dnload_raw \
     --executor-memory $MEMORY_PER_EXECUTOR \
     -- \
     vcf2adam -onlyvariants \
+    -parquet_compression_codec SNAPPY \
     hdfs:///user/ec2-user/dbsnp/raw \
     hdfs:///user/ec2-user/dbsnp/adam_variants
 
@@ -41,6 +42,7 @@ eggo-data dnload_raw \
     --executor-memory $MEMORY_PER_EXECUTOR \
     -- \
     flatten \
+    -parquet_compression_codec SNAPPY \
     hdfs:///user/ec2-user/dbsnp/adam_variants \
     hdfs:///user/ec2-user/dbsnp/adam_flat_variants
 

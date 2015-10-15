@@ -31,7 +31,8 @@ eggo-data dnload_raw \
     --num-executors $TOTAL_EXECUTORS --executor-cores $CORES_PER_EXECUTOR \
     --executor-memory $MEMORY_PER_EXECUTOR \
     -- \
-    vcf2adam -onlyvariants \
+    vcf2adam \
+    -parquet_compression_codec SNAPPY \
     hdfs:///user/ec2-user/1kg-genotypes/raw \
     hdfs:///user/ec2-user/1kg-genotypes/adam_variants
 
@@ -41,6 +42,7 @@ eggo-data dnload_raw \
     --executor-memory $MEMORY_PER_EXECUTOR \
     -- \
     flatten \
+    -parquet_compression_codec SNAPPY \
     hdfs:///user/ec2-user/1kg-genotypes/adam_variants \
     hdfs:///user/ec2-user/1kg-genotypes/adam_flat_variants
 
