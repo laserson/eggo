@@ -25,6 +25,74 @@ eggo-data dnload_raw \
     --output hdfs:///user/ec2-user/1kg-genotypes/raw
 
 
+# QUINCE INGESTION
+hadoop jar ~/quince/target/quince-0.0.1-SNAPSHOT-job.jar \
+    com.cloudera.science.quince.LoadVariantsTool \
+    -D mapreduce.map.java.opts="-Xmx3g" \
+    -D mapreduce.reduce.java.opts="-Xmx3g" \
+    -D mapreduce.map.memory.mb=4096 \
+    -D mapreduce.reduce.memory.mb=4096 \
+    --sample-group 1kg \
+    --data-model GA4GH \
+    --flatten \
+    hdfs:///user/ec2-user/1kg-genotypes/raw \
+    hdfs:///user/ec2-user/1kg-genotypes/ga4gh_flat
+hadoop distcp \
+    hdfs:///user/ec2-user/1kg-genotypes/ga4gh_flat \
+    s3n://bdg-eggo/1kg-genotypes/ga4gh_flat
+hadoop fs -rm -r hdfs:///user/ec2-user/1kg-genotypes/ga4gh_flat
+
+hadoop jar ~/quince/target/quince-0.0.1-SNAPSHOT-job.jar \
+    com.cloudera.science.quince.LoadVariantsTool \
+    -D mapreduce.map.java.opts="-Xmx3g" \
+    -D mapreduce.reduce.java.opts="-Xmx3g" \
+    -D mapreduce.map.memory.mb=4096 \
+    -D mapreduce.reduce.memory.mb=4096 \
+    --sample-group 1kg \
+    --data-model GA4GH \
+    hdfs:///user/ec2-user/1kg-genotypes/raw \
+    hdfs:///user/ec2-user/1kg-genotypes/ga4gh
+hadoop distcp \
+    hdfs:///user/ec2-user/1kg-genotypes/ga4gh \
+    s3n://bdg-eggo/1kg-genotypes/ga4gh
+hadoop fs -rm -r hdfs:///user/ec2-user/1kg-genotypes/ga4gh
+
+hadoop jar ~/quince/target/quince-0.0.1-SNAPSHOT-job.jar \
+    com.cloudera.science.quince.LoadVariantsTool \
+    -D mapreduce.map.java.opts="-Xmx3g" \
+    -D mapreduce.reduce.java.opts="-Xmx3g" \
+    -D mapreduce.map.memory.mb=4096 \
+    -D mapreduce.reduce.memory.mb=4096 \
+    --sample-group 1kg \
+    --data-model ADAM \
+    --flatten \
+    hdfs:///user/ec2-user/1kg-genotypes/raw \
+    hdfs:///user/ec2-user/1kg-genotypes/adam_flat
+hadoop distcp \
+    hdfs:///user/ec2-user/1kg-genotypes/adam_flat \
+    s3n://bdg-eggo/1kg-genotypes/adam_flat
+hadoop fs -rm -r hdfs:///user/ec2-user/1kg-genotypes/adam_flat
+
+hadoop jar ~/quince/target/quince-0.0.1-SNAPSHOT-job.jar \
+    com.cloudera.science.quince.LoadVariantsTool \
+    -D mapreduce.map.java.opts="-Xmx3g" \
+    -D mapreduce.reduce.java.opts="-Xmx3g" \
+    -D mapreduce.map.memory.mb=4096 \
+    -D mapreduce.reduce.memory.mb=4096 \
+    --sample-group 1kg \
+    --data-model ADAM \
+    hdfs:///user/ec2-user/1kg-genotypes/raw \
+    hdfs:///user/ec2-user/1kg-genotypes/adam
+hadoop distcp \
+    hdfs:///user/ec2-user/1kg-genotypes/adam \
+    s3n://bdg-eggo/1kg-genotypes/adam
+hadoop fs -rm -r hdfs:///user/ec2-user/1kg-genotypes/adam
+
+
+
+# DELETE  DELETE  DELETE  DELETE  DELETE  DELETE  DELETE  DELETE  DELETE
+# vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
 # ADAM PROCESSING
 # convert to ADAM format
 ~/adam/bin/adam-submit --master yarn-client --driver-memory 8g \
